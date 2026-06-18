@@ -1,0 +1,23 @@
+{
+  "name": "tensor-atlas",
+  "version": "0.1.0",
+  "description": "Skills para construir paso a paso cualquier Atlas territorial de Tensor (estilo uraba.tensor.lat / caba.tensor.lat): scouting de datos abiertos, diseño del índice, pipeline Python, satélite GEE, clonado del front Nuxt y despliegue.",
+  "author": {
+    "name": "Cristian Espinal",
+    "url": "https://tensor.lat"
+  },
+  "homepage": "https://github.com/Cespial/tensor-atlas",
+  "keywords": [
+    "atlas",
+    "tensor",
+    "maplibre",
+    "pmtiles",
+    "nuxt",
+    "geospatial",
+    "open-data",
+    "google-earth-engine",
+    "territorial",
+    "colombia",
+    "argentina"
+  ]
+}
