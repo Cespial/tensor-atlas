@@ -1,3 +1,14 @@
 node_modules/
 .DS_Store
 *.log
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.out
+*.vrb
+*.synctex.gz
+docs/metodologia/qa/

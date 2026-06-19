@@ -4,6 +4,16 @@
 
 No es una librería de código: es una **serie de _skills_** (guías ejecutables) que un agente sigue para llevar un territorio nuevo desde "no tengo nada" hasta "un atlas desplegado en producción", reusando el método y el _stack_ con que ya se construyeron Urabá y CABA.
 
+> ### 📌 En una frase
+> Convertimos **datos públicos dispersos** de un territorio en un **mapa de bienestar
+> interactivo** que cualquier alcaldía, gremio o inversionista puede usar para decidir
+> _dónde_ actuar — y lo hacemos con un **método repetible** que arma un atlas nuevo en
+> días, no en meses.
+>
+> **¿Para quién es este repositorio?** Si eres tomador de decisiones y quieres entender
+> *la metodología* sin tecnicismos, lee [**la presentación de la metodología (PDF)**](docs/metodologia/atlas-metodologia.pdf).
+> Si eres técnico y quieres *ejecutarla*, sigue leyendo.
+
 ---
 
 ## ¿Qué es un "Atlas de Tensor"?

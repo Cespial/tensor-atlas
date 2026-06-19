@@ -1,0 +1,493 @@
+% ============================================================================
+%  Atlas de Bienestar Humano Territorial — Metodología de construcción
+%  Deck para tomadores de decisión · Tensor
+%  Compilar:  pdflatex atlas-metodologia.tex  (x2)
+% ============================================================================
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,calc,backgrounds}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fontawesome5}
+
+% ---- Paleta Tensor (modo claro) -------------------------------------------
+\definecolor{tPrimary}{HTML}{1A1A1A}
+\definecolor{tBody}{HTML}{3D3D3D}
+\definecolor{tMuted}{HTML}{5F5F5B}
+\definecolor{tAccent}{HTML}{1B6B6D}
+\definecolor{tAccentL}{HTML}{E8F4F4}
+\definecolor{tAccentD}{HTML}{155556}
+\definecolor{tBorder}{HTML}{E5E5E0}
+\definecolor{tBgAlt}{HTML}{F2F1EE}
+\definecolor{tAmber}{HTML}{B45309}
+
+% ---- Tema minimal ----------------------------------------------------------
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=tBody}
+\setbeamercolor{structure}{fg=tAccent}
+\setbeamercolor{frametitle}{fg=tPrimary}
+\setbeamercolor{itemize item}{fg=tAccent}
+\setbeamercolor{itemize subitem}{fg=tAccent}
+\setbeamercolor{block title}{fg=white,bg=tAccent}
+\setbeamercolor{block body}{fg=tBody,bg=tAccentL}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamerfont{title}{series=\bfseries}
+\setbeamertemplate{itemize item}{\footnotesize\faCircle}
+\setbeamertemplate{itemize subitem}{\scriptsize\faAngleRight}
+
+% Título de frame con regla accent
+\setbeamertemplate{frametitle}{%
+  \vspace*{0.7em}%
+  {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}\\[0.15em]%
+  {\color{tAccent}\rule{0.10\textwidth}{2.2pt}}\par\vspace*{0.2em}%
+}
+
+% Pie de página
+\setbeamertemplate{footline}{%
+  \hbox{\begin{beamercolorbox}[wd=\paperwidth,ht=2.6ex,dp=1.2ex,leftskip=1.2em,rightskip=1.2em]{}%
+    {\color{tMuted}\scriptsize\texttt{TENSOR}\quad\textbar\quad Atlas · Metodología}%
+    \hfill{\color{tMuted}\scriptsize\insertframenumber}%
+  \end{beamercolorbox}}%
+}
+
+% --- Comandos util ----------------------------------------------------------
+\newcommand{\skilltag}[1]{{\color{tAccentD}\ttfamily\footnotesize[#1]}}
+\newcommand{\lead}[1]{{\color{tPrimary}\large #1}\par\medskip}
+\newcommand{\kpi}[2]{{\color{tAccent}\bfseries\Large #1}\;{\color{tMuted}\footnotesize #2}}
+
+% Caja "Entra / Hace / Sale"
+\newcommand{\ehs}[3]{%
+\begin{columns}[T]
+  \begin{column}{0.32\textwidth}
+    {\color{tMuted}\ttfamily\footnotesize ENTRA}\\[2pt]{\small #1}
+  \end{column}
+  \begin{column}{0.36\textwidth}
+    {\color{tMuted}\ttfamily\footnotesize HACE}\\[2pt]{\small #2}
+  \end{column}
+  \begin{column}{0.32\textwidth}
+    {\color{tMuted}\ttfamily\footnotesize PRODUCE}\\[2pt]{\small #3}
+  \end{column}
+\end{columns}}
+
+% ============================================================================
+\begin{document}
+
+% ---------- PORTADA ----------
+{\setbeamertemplate{footline}{}
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[tBgAlt] (current page.south west) rectangle (current page.north east);
+  \fill[tAccent] (current page.north west) rectangle ([yshift=-0.9cm]current page.north east);
+\end{tikzpicture}
+\vspace{1.6cm}
+{\color{tAccent}\ttfamily\small ATLAS DE BIENESTAR HUMANO TERRITORIAL}\\[0.5em]
+{\color{tPrimary}\fontsize{30}{34}\selectfont\bfseries Cómo se construye un Atlas,\\ paso a paso}\\[0.6em]
+{\color{tBody}\large Una metodología repetible para convertir datos públicos\\ en decisiones territoriales — explicada sin tecnicismos.}\\[1.4cm]
+{\color{tMuted}\ttfamily\footnotesize TENSOR \quad\textbar\quad uraba.tensor.lat \;\textbullet\; caba.tensor.lat}
+\end{frame}}
+
+% ---------- 1. EL PROBLEMA ----------
+\begin{frame}{El punto de partida}
+\lead{Los datos de un territorio existen — pero están dispersos, en formatos distintos y sin una lectura común.}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\textbf{\color{tPrimary}Lo que hay hoy}
+\begin{itemize}\footnotesize
+  \item Catastro en una oficina, censo en otra, salud en otra.
+  \item Formatos incompatibles, sin geografía común.
+  \item Cada estudio se arma desde cero y no se reutiliza.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\textbf{\color{tPrimary}La consecuencia}
+\begin{itemize}\footnotesize
+  \item Decisiones sin granularidad: ``el municipio'', no ``esta manzana''.
+  \item Difícil comparar zonas o priorizar con evidencia.
+  \item Lo que costó meses no sirve para el siguiente territorio.
+\end{itemize}
+\end{column}
+\end{columns}
+\medskip
+\begin{block}{La pregunta}
+¿Y si midiéramos el \textbf{bienestar de cada cuadra}, lo volviéramos un mapa que cualquiera entienda, y repitiéramos el proceso en cualquier territorio?
+\end{block}
+\end{frame}
+
+% ---------- 2. QUÉ ES UN ATLAS ----------
+\begin{frame}{Qué es un Atlas de Tensor}
+\lead{Un mapa interactivo que pinta un \textbf{Índice de Bienestar} sobre miles de unidades pequeñas (manzanas), y deja explorarlo dimensión por dimensión.}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{\color{tPrimary}Lo que ve el usuario}
+\begin{itemize}
+  \item Un mapa donde el color dice qué tan bien está cada zona.
+  \item Filtros por dimensión: salud, ambiente, transporte\dots
+  \item Fichas por barrio/comuna con sus indicadores.
+  \item Comparador de zonas y rankings.
+\end{itemize}
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{block}{Casos reales}
+\textbf{Urabá} (Colombia) — 7.028 manzanas.\\[3pt]
+\textbf{CABA} (Argentina) — radios censales de Buenos Aires.\\[6pt]
+\footnotesize Mismo método, dos países, mismo resultado.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- 3. PARA QUÉ SIRVE ----------
+\begin{frame}{Para qué sirve — quién decide mejor con esto}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\textbf{\color{tAccent}Sector público}
+\begin{itemize}\footnotesize
+  \item Focalizar inversión social donde más falta.
+  \item Priorizar obras de acceso (salud, transporte).
+  \item Ordenamiento territorial con evidencia.
+\end{itemize}
+\medskip
+\textbf{\color{tAccent}Gremios y cooperación}
+\begin{itemize}\footnotesize
+  \item Diagnóstico territorial para proyectos.
+  \item Línea base para medir impacto.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\textbf{\color{tAccent}Sector privado}
+\begin{itemize}\footnotesize
+  \item Decidir dónde ubicar servicios o expandir.
+  \item Entender el entorno socioeconómico de una zona.
+\end{itemize}
+\medskip
+\begin{block}{El valor}
+Pasar de la intuición y el promedio municipal a una \textbf{lectura cuadra por cuadra}, comparable y auditable.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- SECCIÓN: CÓMO SE MIDE ----------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[tAccent] (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}
+\vfill
+\centering
+{\color{white}\ttfamily\small PARTE 1}\\[0.4em]
+{\color{white}\Huge\bfseries Cómo se mide el bienestar}\\[0.4em]
+{\color{tAccentL}\large El Índice, sus dimensiones y la unidad de análisis}
+\vfill
+\end{frame}
+
+% ---------- 4. EL ÍNDICE ----------
+\begin{frame}{El Índice de Bienestar: cuatro dimensiones}
+\lead{El puntaje de cada manzana combina cuatro dimensiones, con pesos fijos. Es transparente: se sabe exactamente de dónde sale cada número.}
+\begin{columns}[T]
+\begin{column}{0.54\textwidth}
+\begin{tikzpicture}[xscale=4.2,yscale=0.62]
+  \foreach \y/\name/\w/\val in {3/Accesibilidad/0.40/1.0, 2/Ambiental/0.25/0.625, 1/Socioeconómico/0.25/0.625, 0/Seguridad/0.20/0.50}{
+    \node[anchor=east,text=tBody] at (0,\y) {\small \name};
+    \fill[tBorder] (0.05,\y-0.28) rectangle (1.05,\y+0.28);
+    \fill[tAccent] (0.05,\y-0.28) rectangle (0.05+\val,\y+0.28);
+    \node[anchor=west,text=white,font=\scriptsize\bfseries] at (0.10,\y) {\w};
+  }
+\end{tikzpicture}
+\end{column}
+\begin{column}{0.46\textwidth}
+\footnotesize
+\textbf{\color{tPrimary}Cómo se lee}
+\begin{itemize}\footnotesize
+  \item Cada dimensión vale entre 0 y 1 (peor\,$\rightarrow$\,mejor).
+  \item Los pesos reflejan prioridad: el acceso pesa más.
+  \item Si falta dato real de una dimensión, el índice se \textbf{re-balancea} con las que sí hay (no se inventa).
+\end{itemize}
+\smallskip
+{\color{tMuted}Índice $=\dfrac{0.40\cdot\text{Acc}+0.25\cdot\text{Amb}+0.25\cdot\text{Soc}+0.20\cdot\text{Seg}}{\text{suma de pesos}}$}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- 5. SUB-INDICADORES ----------
+\begin{frame}{Qué hay dentro de cada dimensión}
+\lead{Cada dimensión se arma de sub-indicadores medibles. Ejemplos:}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\footnotesize
+\textbf{\color{tAccent}Accesibilidad} — qué tan cerca está lo esencial
+\begin{itemize}\footnotesize\item Tiempo real a salud, educación y transporte.\end{itemize}
+\smallskip
+\textbf{\color{tAccent}Ambiental} — calidad del entorno
+\begin{itemize}\footnotesize\item Vegetación (NDVI), islas de calor (temperatura), suelo construido.\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\footnotesize
+\textbf{\color{tAccent}Socioeconómico} — condiciones de vida
+\begin{itemize}\footnotesize\item Necesidades básicas insatisfechas, hogares, población.\end{itemize}
+\smallskip
+\textbf{\color{tAccent}Seguridad} — proxy disponible
+\begin{itemize}\footnotesize\item Iluminación nocturna y presencia de equipamiento.\end{itemize}
+\end{column}
+\end{columns}
+\vfill
+\begin{block}{Honestidad metodológica}
+Lo que tiene \textbf{dato real} se marca como tal; lo que es aproximación (``proxy'') se declara; lo que falta se registra como \textbf{brecha}. Nada se disfraza.
+\end{block}
+\end{frame}
+
+% ---------- 6. UNIDAD DE ANÁLISIS ----------
+\begin{frame}{La unidad de análisis: del detalle al agregado}
+\lead{Medimos en la unidad más fina posible y luego agregamos hacia arriba para los paneles y rankings.}
+\centering\medskip
+\begin{tikzpicture}[node distance=0.7cm,every node/.style={font=\small}]
+  \node[draw=tAccent,fill=tAccentL,rounded corners,thick,minimum width=3.4cm,minimum height=1.1cm,align=center] (m) {\textbf{Manzana / Radio censal}\\[2pt]\scriptsize unidad base del Índice};
+  \node[draw=tBorder,fill=white,rounded corners,minimum width=3.0cm,minimum height=1.0cm,align=center,right=1.3cm of m] (b) {\textbf{Barrio / Vereda}\\[2pt]\scriptsize capa de contexto};
+  \node[draw=tBorder,fill=white,rounded corners,minimum width=3.0cm,minimum height=1.0cm,align=center,right=1.3cm of b] (mu) {\textbf{Comuna / Municipio}\\[2pt]\scriptsize agregación y rankings};
+  \draw[-{Latex[length=3mm]},tAccent,thick] (m) -- (b);
+  \draw[-{Latex[length=3mm]},tAccent,thick] (b) -- (mu);
+\end{tikzpicture}
+\vfill
+{\footnotesize\color{tMuted} Miles de manzanas dan el detalle; las agregaciones dan la mirada comparable. Una sola base de datos sirve para las dos escalas.}
+\end{frame}
+
+% ---------- 7. DE DÓNDE SALEN LOS DATOS ----------
+\begin{frame}{De dónde salen los datos: fuentes abiertas + satélite}
+\lead{Todo se construye con datos \textbf{públicos y verificables}, más imágenes satelitales gratuitas.}
+\centering\small
+\begin{tabular}{@{}>{\raggedright}p{3.3cm} p{8.2cm}@{}}
+\toprule
+{\color{tAccent}\textbf{Dominio}} & {\color{tAccent}\textbf{Fuentes típicas}}\\
+\midrule
+Territorio base & Catastro, censo de población (manzanas, NBI, hogares)\\
+Salud / Educación & Registros de hospitales, centros de salud, colegios\\
+Transporte & Paradas, rutas, ciclovías; tiempos de viaje reales\\
+Ambiente & Áreas verdes, arbolado; satélite (vegetación, calor)\\
+Riesgo / Social & Asentamientos, inundación, vulnerabilidad\\
+\bottomrule
+\end{tabular}
+\vfill
+{\footnotesize\color{tMuted} En Colombia: IGAC, DANE, REPS, SIMAT, IDEAM\dots\quad En Argentina: BA Data, INDEC, IGN\dots\quad Satélite (mundial): Sentinel-2, Landsat, VIIRS.}
+\end{frame}
+
+% ---------- SECCIÓN: EL MÉTODO ----------
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[tAccent] (current page.south west) rectangle (current page.north east);
+\end{tikzpicture}
+\vfill
+\centering
+{\color{white}\ttfamily\small PARTE 2}\\[0.4em]
+{\color{white}\Huge\bfseries El método de construcción}\\[0.4em]
+{\color{tAccentL}\large Seis fases, de los datos crudos al atlas en producción}
+\vfill
+\end{frame}
+
+% ---------- 8. POR QUÉ ES REPETIBLE ----------
+\begin{frame}{La clave: una fábrica, no una obra irrepetible}
+\lead{El visor del mapa no sabe de qué territorio habla. Solo exige que los datos lleguen en un \textbf{molde fijo} (un ``contrato'').}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{block}{Consecuencia}
+Construir un atlas nuevo $=$ \textbf{reemplazar los datos} en el molde $+$ cambiar nombres y marca.\\[4pt] No se reescribe el programa.
+\end{block}
+\end{column}
+\begin{column}{0.5\textwidth}
+\textbf{\color{tPrimary}Por eso\dots}
+\begin{itemize}\footnotesize
+  \item El primer atlas costó meses de aprendizaje.
+  \item El segundo (CABA) se armó en una fracción del tiempo.
+  \item El método queda \textbf{empaquetado} y se aplica a cualquier territorio.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- 9. PIPELINE GENERAL ----------
+\begin{frame}{Las seis fases de un vistazo}
+\centering\medskip
+\begin{tikzpicture}[
+  fase/.style={draw=tAccent,fill=white,rounded corners,thick,minimum width=2.05cm,minimum height=1.35cm,align=center,font=\scriptsize},
+  node distance=0.45cm]
+  \node[fase] (f0) {{\color{tAccent}\ttfamily\bfseries 0}\\[1pt]\textbf{Explorar}\\datos};
+  \node[fase,right=of f0] (f1) {{\color{tAccent}\ttfamily\bfseries 1}\\[1pt]\textbf{Diseñar}\\el índice};
+  \node[fase,right=of f1] (f2) {{\color{tAccent}\ttfamily\bfseries 2}\\[1pt]\textbf{Procesar}\\los datos};
+  \node[fase,right=of f2] (f3) {{\color{tAccent}\ttfamily\bfseries 3}\\[1pt]\textbf{Satélite}\\(opcional)};
+  \node[fase,right=of f3] (f4) {{\color{tAccent}\ttfamily\bfseries 4}\\[1pt]\textbf{Construir}\\el visor};
+  \node[fase,right=of f4] (f5) {{\color{tAccent}\ttfamily\bfseries 5}\\[1pt]\textbf{Publicar}\\y verificar};
+  \foreach \a/\b in {f0/f1,f1/f2,f2/f3,f3/f4,f4/f5}{
+    \draw[-{Latex[length=2.4mm]},tAccent,thick] (\a) -- (\b);}
+\end{tikzpicture}
+\vfill
+\begin{columns}[T]
+\begin{column}{0.62\textwidth}
+{\footnotesize\color{tBody} Entre cada fase hay un \textbf{control de calidad} (``compuerta''): no se avanza hasta que la fase anterior cumple su criterio. Si algo falla, se detiene y se reporta.}
+\end{column}
+\begin{column}{0.34\textwidth}
+{\footnotesize\color{tMuted} Cada fase está documentada como una guía ejecutable reutilizable. El proceso completo puede reanudarse donde se quedó.}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- 10-15. FASES ----------
+\begin{frame}{Fase 0 — Explorar y verificar las fuentes \skilltag{atlas-scout}}
+\lead{Buscar qué datos abiertos existen para el territorio y \textbf{comprobar uno por uno} que estén vivos y traigan información real.}
+\ehs{El nombre del territorio y su país.}{Rastrea fuentes por dominio (salud, transporte\dots) y verifica cada una en el momento: ¿responde?, ¿trae datos?, ¿qué licencia?}{Un inventario de fuentes confiables y una lista honesta de \textbf{vacíos} de información.}
+\vfill
+\begin{block}{Por qué importa}
+Evita construir sobre datos que ``parecían'' existir. Lo que no se puede verificar se declara como brecha, no se rellena con supuestos.
+\end{block}
+\end{frame}
+
+\begin{frame}{Fase 1 — Diseñar el índice \skilltag{atlas-design}}
+\lead{Decidir la unidad de análisis, las dimensiones y los pesos según lo que el dato \textbf{permite} en ese territorio.}
+\ehs{El inventario de fuentes de la Fase 0.}{Elige la unidad base y las agregaciones; fija dimensiones y pesos; clasifica cada una como dato-real, proxy o brecha.}{Un plan de construcción claro, acordado antes de procesar nada.}
+\vfill
+\begin{block}{Compuerta de calidad}
+El plan se \textbf{confirma con el responsable} antes de seguir. Aquí se acuerda qué se va a medir y cómo.
+\end{block}
+\end{frame}
+
+\begin{frame}{Fase 2 — Procesar los datos \skilltag{atlas-pipeline}}
+\lead{Convertir los datos crudos en el ``molde'' que el visor entiende, calculando el Índice de cada manzana.}
+\ehs{Datos crudos verificados + el plan.}{Limpia, alinea geografías, normaliza, calcula los puntajes ponderados y prepara los mapas para que carguen rápido.}{La base de datos del atlas, lista y \textbf{auto-verificada}.}
+\vfill
+\begin{block}{Compuerta de calidad}
+Verificación automática: todos los puntajes entre 0 y 1, sin valores vacíos, y los conteos cuadran. Si no pasa, no avanza.
+\end{block}
+\end{frame}
+
+\begin{frame}{Fase 3 — Indicadores satelitales \skilltag{atlas-satelite}\;\;\small(opcional)}
+\lead{Medir el entorno físico con imágenes de satélite gratuitas, manzana por manzana.}
+\ehs{La geometría de las manzanas.}{Calcula vegetación, temperatura de superficie (islas de calor), suelo construido y luces nocturnas sobre cada unidad.}{Una tabla de indicadores ambientales que enriquece el Índice.}
+\vfill
+{\footnotesize\color{tMuted} Usa programas satelitales abiertos y globales (Sentinel-2, Landsat, VIIRS), así que aplica a cualquier territorio del mundo sin pedir permisos.}
+\end{frame}
+
+\begin{frame}{Fase 4 — Construir el visor \skilltag{atlas-web}}
+\lead{Tomar el visor de mapa ya probado y \textbf{vestirlo} con los datos y la identidad del nuevo territorio.}
+\ehs{La base de datos de la Fase 2.}{Reusa el mismo visor; cambia nombres, etiquetas, centro del mapa y marca. No se reescribe el programa.}{El atlas funcionando, pintando el nuevo territorio.}
+\vfill
+\begin{block}{Eficiencia}
+Como el visor es el mismo molde, esta fase es sobre todo configuración — el grueso del trabajo ya quedó en los datos.
+\end{block}
+\end{frame}
+
+\begin{frame}{Fase 5 — Publicar y verificar \skilltag{atlas-deploy}}
+\lead{Poner el atlas en línea, con su dirección web, tras un control de calidad final.}
+\ehs{El atlas funcionando localmente.}{Publica en la nube, asigna el dominio y revisa \textbf{dato por dato y pantalla por pantalla} que todo sea coherente.}{Un atlas público, en una dirección web, listo para decidir.}
+\vfill
+{\footnotesize\color{tMuted} Doble control: que los números sean consistentes y que el mapa y los paneles se vean y funcionen bien.}
+\end{frame}
+
+% ---------- 16. CONTROL DE CALIDAD ----------
+\begin{frame}{El hilo conductor: control de calidad entre fases}
+\lead{Lo que hace confiable al método no es una fase, sino las \textbf{compuertas} entre ellas.}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\textbf{\color{tPrimary}Principios}
+\begin{itemize}\footnotesize
+  \item No se avanza sin verificar la fase anterior.
+  \item Toda fuente se comprueba en el momento.
+  \item Lo no verificable se declara como brecha.
+  \item El proceso es reanudable y auditable.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{block}{Resultado}
+Un atlas que se puede \textbf{defender}: cada número tiene origen, cada aproximación está declarada, cada vacío está documentado.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- 17. AUTOMATIZACIÓN ----------
+\begin{frame}{Cómo se ejecuta este método}
+\lead{Cada fase está escrita como una \textbf{guía ejecutable} que un sistema de agentes de inteligencia artificial sigue de forma asistida y supervisada.}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\textbf{\color{tPrimary}Qué significa en la práctica}
+\begin{itemize}\footnotesize
+  \item El método queda \textbf{empaquetado}, no en la cabeza de una persona.
+  \item Tareas repetitivas (buscar, verificar, procesar) se automatizan.
+  \item Una persona supervisa y aprueba en las compuertas.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{block}{Lo importante para el decisor}
+No necesita conocer la herramienta. Lo relevante es que el método es \textbf{repetible, rápido y auditable} — y que existe el mismo para cualquier territorio.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- 18. EL SALTO ----------
+\begin{frame}{El salto: de meses a días}
+\centering\vspace{0.3cm}
+\begin{columns}[T]
+\begin{column}{0.33\textwidth}\centering
+\kpi{Meses}{primer atlas}\\[4pt]{\footnotesize\color{tMuted} Urabá: definir el método desde cero}
+\end{column}
+\begin{column}{0.33\textwidth}\centering
+\kpi{Días}{atlas siguiente}\\[4pt]{\footnotesize\color{tMuted} CABA: aplicar el método ya probado}
+\end{column}
+\begin{column}{0.33\textwidth}\centering
+\kpi{$N$}{territorios}\\[4pt]{\footnotesize\color{tMuted} El mismo molde escala a cualquiera}
+\end{column}
+\end{columns}
+\vfill
+\begin{block}{En palabras del propio análisis}
+Lo que en un territorio costó meses de trabajo, en el siguiente quedó ``a un clic de distancia'' — porque las piezas difíciles ya están resueltas y empaquetadas.
+\end{block}
+\end{frame}
+
+% ---------- 19. VALOR / CIERRE ----------
+\begin{frame}{Qué gana un tomador de decisiones}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\textbf{\color{tAccent}Decisión con evidencia}
+\begin{itemize}\footnotesize
+  \item Ver el bienestar cuadra por cuadra.
+  \item Priorizar dónde actuar primero.
+  \item Comparar zonas con un criterio único.
+\end{itemize}
+\medskip
+\textbf{\color{tAccent}Confianza}
+\begin{itemize}\footnotesize
+  \item Datos públicos y verificables.
+  \item Método transparente y auditable.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\textbf{\color{tAccent}Escala}
+\begin{itemize}\footnotesize
+  \item Un territorio hoy, varios mañana.
+  \item Línea base para medir cambios en el tiempo.
+\end{itemize}
+\medskip
+\begin{block}{En síntesis}
+Un instrumento para gobernar y invertir \textbf{con el territorio a la vista} — no con promedios.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------- CIERRE ----------
+{\setbeamertemplate{footline}{}
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[tBgAlt] (current page.south west) rectangle (current page.north east);
+  \fill[tAccent] ([yshift=0.9cm]current page.south west) rectangle (current page.south east);
+\end{tikzpicture}
+\vspace{1.8cm}
+{\color{tPrimary}\Huge\bfseries Del dato disperso\\ a la decisión territorial.}\\[0.8em]
+{\color{tBody}\large La metodología, empaquetada y repetible, para construir un Atlas en cualquier territorio.}\\[1.6cm]
+{\color{tAccentD}\ttfamily\small TENSOR}\quad{\color{tMuted}\ttfamily\small\textbar\quad uraba.tensor.lat \textbullet\ caba.tensor.lat \textbullet\ github.com/Cespial/tensor-atlas}
+\end{frame}}
+
+\end{document}
